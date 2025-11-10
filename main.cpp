@@ -32,15 +32,46 @@ public:
         return Point(x * scalar, y * scalar);
     }
 
-    double operator[](char coord) const {
-        if (coord == 'x' || coord == 'X') return x;
-        if (coord == 'y' || coord == 'Y') return y;
-        throw invalid_argument("Invalid coordinate. Use 'x' or 'y'.");
+    double operator[](int index) const {
+        if (index == 0) return x;
+        if (index == 1) return y;
+        throw invalid_argument("Invalid index. Use 0 for x or 1 for y.");
+    }
+
+    // Pre-increment (++point): increments x
+    Point& operator++() {
+        ++x;
+        return *this;
+    }
+
+    // Post-increment (point++): increments y
+    Point operator++(int) {
+        Point temp = *this;
+        y++;
+        return temp;
+    }
+
+    // Pre-decrement (--point): decrements x
+    Point& operator--() {
+        --x;
+        return *this;
+    }
+
+    // Post-decrement (point--): decrements y
+    Point operator--(int) {
+        Point temp = *this;
+        y--;
+        return temp;
     }
 
     friend ostream& operator<<(ostream& os, const Point& p) {
         os << "(" << p.x << ", " << p.y << ")";
         return os;
+    }
+
+    friend istream& operator>>(istream& is, Point& p) {
+        is >> p.x >> p.y;
+        return is;
     }
 };
 
@@ -53,7 +84,24 @@ int main() {
     cout << (p1 != p2) << endl;
     cout << p1 / p2 << endl;
     cout << p1 * 2 << endl;
-    cout << p1['x'] << ", " << p1['y'] << endl;
+    cout << p1[0] << ", " << p1[1] << endl;
+
+    ++p1;
+    cout << p1 << endl;
+
+    p1++;
+    cout << p1 << endl;
+
+    --p1;
+    cout << p1 << endl;
+
+    p1--;
+    cout << p1 << endl;
+
+    Point inputPoint;
+    cout << "Enter a point (x y): ";
+    cin >> inputPoint;
+    cout << "You entered: " << inputPoint << endl;
 
     return 0;
 }
